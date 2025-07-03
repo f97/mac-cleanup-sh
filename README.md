@@ -42,6 +42,13 @@
 * Deletes Kite logs
 * Clears Go module cache
 * Clears Poetry cache
+* **🇻🇳 Vietnamese Apps Cleanup** (with `--vietnamese-apps` flag):
+  * Cốc Cốc Browser cache and data
+  * Zalo Desktop cache and temp files
+  * VTV Go media cache
+  * Banking apps cache (VCB-Digibank, BIDV SmartBanking, Techcombank)
+  * Music & Entertainment cache (Zing MP3, NhacCuaTui)
+  * E-commerce apps cache (Shopee, Lazada, Tiki)
 
 </details>
 
@@ -138,7 +145,31 @@ FLAGS:
 -d, --dry-run    Print approx space to be cleaned
 -v, --verbose    Print script debug info
 -u, --update     Run brew update
+--vietnamese-apps Clean Vietnamese applications cache
 ```
+
+### Vietnamese Apps Cleanup
+
+Use the `--vietnamese-apps` flag to clean cache and temporary files from popular Vietnamese applications:
+
+```bash
+# Preview what will be cleaned
+mac-cleanup --vietnamese-apps --dry-run
+
+# Clean Vietnamese apps cache
+mac-cleanup --vietnamese-apps
+
+# Combine with other options
+mac-cleanup --vietnamese-apps --update --verbose
+```
+
+**Supported Vietnamese Apps:**
+- 🌐 **Cốc Cốc Browser** - Cache, GPU cache, session data, cookies, history
+- 💬 **Zalo Desktop** - Cache, temp files, logs (⚠️ may affect chat history loading speed)
+- 📺 **VTV Go** - Media cache
+- 🏦 **Banking Apps** - Vietcombank, BIDV SmartBanking, Techcombank cache
+- 🎵 **Music Apps** - Zing MP3, NhacCuaTui cache
+- 🛒 **E-commerce Apps** - Shopee, Lazada, Tiki cache
 
 ## Contributors
 
