@@ -256,6 +256,34 @@ collect_paths /private/var/folders/bh/*/*/*/*
 msg 'Clearing System Cache Files...'
 remove_paths
 
+# Advanced System Files & Caches
+collect_paths ~/Library/Caches/com.apple.QuickLook.thumbnailcache/*
+collect_paths ~/.DS_Store
+collect_paths ~/Desktop/.DS_Store
+collect_paths ~/Documents/.DS_Store
+collect_paths ~/Downloads/.DS_Store
+collect_paths ~/Library/.DS_Store
+collect_paths ~/Pictures/.DS_Store
+collect_paths ~/Public/.DS_Store
+collect_paths ~/Music/.DS_Store
+collect_paths ~/Movies/.DS_Store
+collect_paths /var/folders/*/*/.DS_Store
+msg 'Clearing QuickLook thumbnails and .DS_Store files...'
+remove_paths
+
+collect_paths ~/Library/Caches/com.apple.ATS/*
+collect_paths /Library/Caches/com.apple.ATS/*
+collect_paths ~/Library/Caches/com.apple.iconservices.store
+collect_paths ~/Library/Caches/locationd/*
+msg 'Clearing font caches, icon services, and location services cache...'
+remove_paths
+
+# Core dumps and system installer logs
+collect_paths /cores/*
+collect_paths /var/log/install.log*
+msg 'Clearing core dumps and system installer logs...'
+remove_paths
+
 collect_paths /private/var/log/asl/*.asl
 collect_paths /Library/Logs/DiagnosticReports/*
 collect_paths /Library/Logs/CreativeCloud/*
@@ -335,15 +363,118 @@ if [ -d ~/Library/Logs/JetBrains/ ]; then
   remove_paths
 fi
 
+# Code Editors & IDEs cleanup
+if [ -d ~/Library/Caches/JetBrains/ ]; then
+  collect_paths ~/Library/Caches/JetBrains/*/
+  msg 'Clearing IntelliJ and JetBrains IDEs caches...'
+  remove_paths
+fi
+
+if [ -d ~/.vscode/ ]; then
+  collect_paths ~/.vscode/extensions/*/node_modules/*
+  msg 'Clearing VSCode extensions node_modules...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Sublime\ Text/ ]; then
+  collect_paths ~/Library/Application\ Support/Sublime\ Text/*/Cache/*
+  collect_paths ~/Library/Application\ Support/Sublime\ Text/*/Local/*
+  msg 'Clearing Sublime Text cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Cursor/ ]; then
+  collect_paths ~/Library/Application\ Support/Cursor/Cache/*
+  collect_paths ~/Library/Application\ Support/Cursor/Code\ Cache/*
+  msg 'Clearing Cursor cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/com.panic.Nova/ ]; then
+  collect_paths ~/Library/Application\ Support/com.panic.Nova/cache/*
+  msg 'Clearing Nova cache...'
+  remove_paths
+fi
+
 if [ -d ~/Library/Application\ Support/Adobe/ ]; then
   collect_paths ~/Library/Application\ Support/Adobe/Common/Media\ Cache\ Files/*
+  collect_paths ~/Library/Application\ Support/Adobe/Common/Media\ Cache/*
+  collect_paths ~/Library/Application\ Support/Adobe/*/cache/*
   msg 'Clearing Adobe Cache Files...'
+  remove_paths
+fi
+
+# Professional Apps cleanup
+if [ -d ~/Library/Application\ Support/Final\ Cut\ Pro/ ]; then
+  collect_paths ~/Library/Application\ Support/Final\ Cut\ Pro/cache/*
+  msg 'Clearing Final Cut Pro cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Logic/ ]; then
+  collect_paths ~/Library/Application\ Support/Logic/cache/*
+  msg 'Clearing Logic Pro cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/com.bohemiancoding.sketch3/ ]; then
+  collect_paths ~/Library/Application\ Support/com.bohemiancoding.sketch3/cache/*
+  msg 'Clearing Sketch cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Figma/ ]; then
+  collect_paths ~/Library/Application\ Support/Figma/Desktop/cache/*
+  collect_paths ~/Library/Application\ Support/Figma/Desktop/Code\ Cache/*
+  msg 'Clearing Figma desktop cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Canva/ ]; then
+  collect_paths ~/Library/Application\ Support/Canva/cache/*
+  msg 'Clearing Canva cache...'
   remove_paths
 fi
 
 if [ -d ~/Library/Application\ Support/Google/Chrome/ ]; then
   collect_paths ~/Library/Application\ Support/Google/Chrome/Default/Application\ Cache/*
-  msg 'Clearing Google Chrome Cache Files...'
+  collect_paths ~/Library/Application\ Support/Google/Chrome/Crashpad/*
+  msg 'Clearing Google Chrome Cache Files and Crash Dumps...'
+  remove_paths
+fi
+
+# Advanced Browser Data Cleanup
+if [ -d ~/Library/Safari/ ]; then
+  collect_paths ~/Library/Safari/Downloads.plist
+  collect_paths ~/Library/Safari/WebsiteData/*
+  msg 'Clearing Safari downloads and website data...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Firefox/ ]; then
+  collect_paths ~/Library/Application\ Support/Firefox/Crash\ Reports/*
+  msg 'Clearing Firefox crash reports...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Microsoft\ Edge/ ]; then
+  collect_paths ~/Library/Application\ Support/Microsoft\ Edge/Default/Cache/*
+  collect_paths ~/Library/Application\ Support/Microsoft\ Edge/Default/Code\ Cache/*
+  msg 'Clearing Microsoft Edge cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/com.operasoftware.Opera/ ]; then
+  collect_paths ~/Library/Application\ Support/com.operasoftware.Opera/Cache/*
+  collect_paths ~/Library/Application\ Support/com.operasoftware.Opera/Code\ Cache/*
+  msg 'Clearing Opera cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/BraveSoftware/ ]; then
+  collect_paths ~/Library/Application\ Support/BraveSoftware/Brave-Browser/Default/Cache/*
+  collect_paths ~/Library/Application\ Support/BraveSoftware/Brave-Browser/Default/Code\ Cache/*
+  msg 'Clearing Brave browser cache...'
   remove_paths
 fi
 
@@ -428,6 +559,14 @@ if type "xcrun" &>/dev/null; then
   fi
 fi
 
+# Extended iOS/Mobile Development cleanup
+collect_paths ~/Library/Developer/Xcode/iOS\ DeviceSupport/*
+collect_paths ~/Library/Developer/CoreSimulator/Profiles/Runtimes/*
+collect_paths ~/Library/Developer/Xcode/UserData/*
+collect_paths ~/Library/Group\ Containers/*/Library/Caches/*
+msg 'Clearing iOS device support files and user data...'
+remove_paths
+
 # support deleting Dropbox Cache if they exist
 if [ -d "/Users/${HOST}/Dropbox" ]; then
   collect_paths ~/Dropbox/.dropbox.cache/*
@@ -463,7 +602,34 @@ if [ -d ~/Library/Application\ Support/Steam/ ]; then
   collect_paths ~/Library/Application\ Support/Steam/steamapps/shadercache
   collect_paths ~/Library/Application\ Support/Steam/steamapps/temp
   collect_paths ~/Library/Application\ Support/Steam/steamapps/download
+  collect_paths ~/Library/Application\ Support/Steam/steamapps/workshop/*
   msg 'Clearing Steam Cache, Log, and Temp Files...'
+  remove_paths
+fi
+
+# Gaming & Entertainment cleanup
+if [ -d ~/Library/Application\ Support/discord/ ]; then
+  collect_paths ~/Library/Application\ Support/discord/Cache/*
+  collect_paths ~/Library/Application\ Support/discord/Code\ Cache/*
+  msg 'Clearing Discord cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Spotify/ ]; then
+  collect_paths ~/Library/Application\ Support/Spotify/PersistentCache/*
+  msg 'Clearing Spotify cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/org.videolan.vlc/ ]; then
+  collect_paths ~/Library/Application\ Support/org.videolan.vlc/cache/*
+  msg 'Clearing VLC cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/com.colliderli.iina/ ]; then
+  collect_paths ~/Library/Application\ Support/com.colliderli.iina/cache/*
+  msg 'Clearing IINA cache...'
   remove_paths
 fi
 
@@ -632,6 +798,49 @@ if type "go" &>/dev/null; then
   fi
 fi
 
+# Extended Development Tools cleanup
+if [ -d ~/.cargo/ ]; then
+  collect_paths ~/.cargo/registry/cache/*
+  msg 'Clearing Rust cargo cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Caches/pip/ ]; then
+  collect_paths ~/Library/Caches/pip/*
+  msg 'Clearing Python pip cache...'
+  remove_paths
+fi
+
+if [ -d ~/.gem/ ]; then
+  collect_paths ~/.gem/cache/*
+  msg 'Clearing Ruby gems cache...'
+  remove_paths
+fi
+
+if [ -d ~/.m2/ ]; then
+  collect_paths ~/.m2/repository/.cache/*
+  msg 'Clearing Maven repository cache...'
+  remove_paths
+fi
+
+if [ -d ~/.composer/ ]; then
+  collect_paths ~/.composer/cache/*
+  msg 'Clearing PHP Composer cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Caches/org.R-project.R/ ]; then
+  collect_paths ~/Library/Caches/org.R-project.R/*
+  msg 'Clearing R packages cache...'
+  remove_paths
+fi
+
+if [ -d ~/miniconda3/pkgs/ ]; then
+  collect_paths ~/miniconda3/pkgs/*
+  msg 'Clearing Conda packages cache...'
+  remove_paths
+fi
+
 # Enhanced Developer Tools Cleanup
 if type "cargo" &>/dev/null; then
   if [ -z "$dry_run" ]; then
@@ -693,6 +902,20 @@ if [ -d ~/Library/Application\ Support/Microsoft/Teams ]; then
   remove_paths
 fi
 
+# Communication Apps cleanup
+if [ -d ~/Library/Application\ Support/Slack/ ]; then
+  collect_paths ~/Library/Application\ Support/Slack/Cache/*
+  collect_paths ~/Library/Application\ Support/Slack/Code\ Cache/*
+  msg 'Clearing Slack cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/zoom.us/ ]; then
+  collect_paths ~/Library/Application\ Support/zoom.us/cache/*
+  collect_paths ~/Library/Application\ Support/zoom.us/logs/*
+  msg 'Clearing Zoom cache and logs...'
+fi
+
 # Enhanced Application Cache Cleanup
 if [ -d ~/Library/Application\ Support/Code/ ]; then
   collect_paths ~/Library/Application\ Support/Code/logs/*
@@ -737,9 +960,14 @@ fi
 
 if [ -d ~/Library/Application\ Support/WhatsApp/ ]; then
   collect_paths ~/Library/Application\ Support/WhatsApp/Cache/*
-  collect_paths ~/Library/Application\ Support/WhatsApp/Code\ Cache/*
-  collect_paths ~/Library/Caches/net.whatsapp.WhatsApp/*
-  msg 'Clearing WhatsApp Cache...'
+  msg 'Clearing WhatsApp cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Telegram\ Desktop/ ]; then
+  collect_paths ~/Library/Application\ Support/Telegram\ Desktop/cache/*
+  collect_paths ~/Library/Application\ Support/Telegram\ Desktop/logs/*
+  msg 'Clearing Telegram Desktop cache and logs...'
   remove_paths
 fi
 
@@ -796,6 +1024,84 @@ fi
 collect_paths ~/*.hprof
 msg 'Deleting Java heap dumps...'
 remove_paths
+
+# Database & Servers cleanup
+if [ -d /usr/local/var/log/mongodb/ ]; then
+  collect_paths /usr/local/var/log/mongodb/*
+  msg 'Clearing MongoDB logs...'
+  remove_paths
+fi
+
+if [ -d /usr/local/var/log/postgresql@*/ ]; then
+  collect_paths /usr/local/var/log/postgresql@*/*
+  msg 'Clearing PostgreSQL logs...'
+  remove_paths
+fi
+
+if [ -d /usr/local/var/mysql/ ]; then
+  collect_paths /usr/local/var/mysql/*.log
+  msg 'Clearing MySQL logs...'
+  remove_paths
+fi
+
+if [ -f /usr/local/var/log/redis.log ]; then
+  collect_paths /usr/local/var/log/redis.log
+  msg 'Clearing Redis logs...'
+  remove_paths
+fi
+
+if [ -d /usr/local/var/lib/elasticsearch/ ]; then
+  collect_paths /usr/local/var/lib/elasticsearch/logs/*
+  msg 'Clearing Elasticsearch logs...'
+  remove_paths
+fi
+
+# Cloud Storage cleanup
+if [ -d ~/Library/Application\ Support/OneDrive/ ]; then
+  collect_paths ~/Library/Application\ Support/OneDrive/cache/*
+  collect_paths ~/Library/Application\ Support/OneDrive/logs/*
+  msg 'Clearing OneDrive cache and logs...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Box/ ]; then
+  collect_paths ~/Library/Application\ Support/Box/Box\ Edit/cache/*
+  msg 'Clearing Box cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/pCloud\ Drive/ ]; then
+  collect_paths ~/Library/Application\ Support/pCloud\ Drive/cache/*
+  msg 'Clearing pCloud cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Sync/ ]; then
+  collect_paths ~/Library/Application\ Support/Sync/cache/*
+  msg 'Clearing Sync.com cache...'
+  remove_paths
+fi
+
+# Security & Privacy cleanup
+collect_paths ~/Library/Logs/CoreData.log
+collect_paths ~/Library/Logs/DiagnosticReports/*
+collect_paths ~/Library/Application\ Support/CrashReporter/*
+collect_paths ~/Library/Application\ Support/*/Analytics/*
+collect_paths ~/Library/Application\ Support/*/Statistics/*
+msg 'Clearing security logs, crash reports, and analytics data...'
+remove_paths
+
+# System Optimization commands (run only when not in dry-run mode)
+if [ -z "$dry_run" ]; then
+  msg 'Rebuilding LaunchServices database...'
+  /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user &>/dev/null
+  
+  msg 'Clearing quarantine attributes from Downloads...'
+  xattr -dr com.apple.quarantine ~/Downloads/ &>/dev/null 2>&1 || true
+  
+  msg 'Clearing font cache...'
+  atsutil databases -remove &>/dev/null 2>&1 || true
+fi
 
 # System Optimization Features
 if [ -z "$dry_run" ]; then
