@@ -43,6 +43,92 @@
 * Clears Go module cache
 * Clears Poetry cache
 
+### 🆕 **Advanced Cleanup Features**
+
+#### 🗂️ **System Files & Caches**
+* Clear QuickLook thumbnails cache
+* Remove .DS_Store files from all directories
+* Clear font caches (ATS)
+* Clear icon services cache
+* Clear location services cache
+* Remove core dumps
+* Clear system installer logs
+
+#### 🌐 **Browser Data (Advanced)**
+* Clear Safari downloads and website data
+* Remove Chrome crash dumps
+* Clear Firefox crash reports
+* Clear Microsoft Edge cache
+* Clear Opera cache
+* Clear Brave browser cache
+
+#### 📱 **iOS/Mobile Development**
+* Clear iOS device support files
+* Remove old simulator runtimes
+* Clear Xcode user data
+* Clear iOS app installer cache
+
+#### 🎮 **Gaming & Entertainment**
+* Clear Discord cache
+* Clear Spotify persistent cache
+* Clear VLC cache
+* Clear IINA cache
+* Clear Steam workshop files
+
+#### 💼 **Professional Apps**
+* Enhanced Adobe Creative Cloud cleanup
+* Clear Final Cut Pro cache
+* Clear Logic Pro cache
+* Clear Sketch cache
+* Clear Figma desktop cache
+* Clear Canva cache
+
+#### 🔧 **Development Tools (Extended)**
+* Clear Rust cargo registry cache
+* Clear Python pip cache
+* Clear Ruby gems cache
+* Clear Maven repository cache
+* Clear PHP Composer cache
+* Clear R packages cache
+* Clear Conda packages cache
+
+#### 📝 **Code Editors & IDEs**
+* Enhanced JetBrains IDEs cache cleanup
+* Clear VSCode extensions node_modules
+* Clear Sublime Text cache
+* Clear Cursor cache
+* Clear Nova cache
+
+#### 💬 **Communication Apps**
+* Clear Slack cache
+* Clear Zoom cache and logs
+* Clear WhatsApp cache
+* Clear Telegram Desktop cache and logs
+
+#### 🗄️ **Database & Servers**
+* Clear MongoDB logs
+* Clear PostgreSQL logs
+* Clear MySQL logs
+* Clear Redis logs
+* Clear Elasticsearch logs
+
+#### 🔄 **Cloud Storage**
+* Clear OneDrive cache and logs
+* Clear Box cache
+* Clear pCloud cache
+* Clear Sync.com cache
+
+#### ⚡ **System Optimization**
+* Rebuild LaunchServices database
+* Clear quarantine attributes from Downloads
+* Reset font cache
+
+#### 🛡️ **Security & Privacy**
+* Clear keychain logs
+* Clear diagnostic reports
+* Clear crash reporter data
+* Clear analytics and usage statistics
+
 </details>
 
 
