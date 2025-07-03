@@ -340,8 +340,11 @@ if type "composer" &>/dev/null; then
   if [ -z "$dry_run" ]; then
     msg 'Cleaning up composer...'
     composer clearcache --no-interaction &>/dev/null
+    composer clear-cache --no-interaction &>/dev/null || true
   else
-    collect_paths ~/Library/Caches/composer
+    collect_paths ~/Library/Caches/composer/*
+    collect_paths ~/.composer/cache/*
+    collect_paths ~/.cache/composer/*
   fi
 fi
 
@@ -718,6 +721,14 @@ if [ -z "$dry_run" ]; then
   sudo dscacheutil -flushcache &>/dev/null
   sudo killall -HUP mDNSResponder &>/dev/null
 fi
+
+# Optional network cache reset (uncomment to enable)
+# if [ -z "$dry_run" ]; then
+#   msg 'Resetting network settings cache...'
+#   sudo ifconfig en0 down &>/dev/null || true
+#   sudo ifconfig en0 up &>/dev/null || true
+#   sudo route -n flush &>/dev/null || true
+# fi
 
 if [ -z "$dry_run" ]; then
   msg 'Purging inactive memory...'

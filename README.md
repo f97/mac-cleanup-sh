@@ -12,7 +12,18 @@
 </br>
 
 * Empty the Trash on All Mounted Volumes and the Main HDD
+* Clear System Cache Files
 * Clear System Log Files
+* Clear System and Application Crash Reports
+* Clear Mail Attachments and Downloads
+* Clear QuickLook Thumbnails
+* Clear Spotlight Indexing Cache
+* Clear Font Caches
+* Clear Icon Caches
+* Clear Enhanced User Cache Directories
+* Clear Additional System Logs
+* Clear Temporary Internet Files
+* Clear Browser Caches (Safari, Firefox, Chrome, Edge, Opera, Brave)
 * Clear Adobe Cache Files
 * Cleanup iOS Applications
 * Remove iOS Device Backups
@@ -26,22 +37,41 @@
 * Cleanup Pyenv-VirtualEnv Cache
 * Cleanup npm Cache
 * Cleanup Yarn Cache
+* Cleanup pnpm Cache
 * Cleanup Docker Images and Stopped Containers
 * Cleanup CocoaPods Cache Files
-* Cleanup composer cache
+* Enhanced composer cache cleanup
 * Cleanup Dropbox cache
+* Cleanup Google Drive File Stream Cache
 * Remove PhpStorm logs
 * Remove Minecraft logs and cache
 * Remove Steam logs and cache
 * Remove Lunar Client logs and cache
 * Remove Microsoft Teams logs and cache
 * Remove Wget logs and hosts
-* Removes Cacher logs
-* Deletes Android caches
-* Clears Gradle caches
-* Deletes Kite logs
-* Clears Go module cache
-* Clears Poetry cache
+* Remove Cacher logs
+* Delete Android caches
+* Clear Gradle caches and stop daemons
+* Delete Kite logs
+* Clear Go module cache
+* Clear Rust cargo cache
+* Clear Python pip cache
+* Clear Maven repository cache
+* Clear Poetry cache
+* Clear VSCode/Cursor cache and logs
+* Clear Slack cache and logs
+* Clear Discord cache
+* Clear Spotify cache
+* Clear WhatsApp cache
+* Clear Telegram cache
+* Clear Figma cache
+* Clear Postman cache
+* Clear Firefox profiles and cache
+* Clear generic Electron app caches
+* Rebuild Launch Services database
+* Clear download quarantine attributes
+* Clear sleep image (hibernation file) if safe
+* Optional network cache reset
 
 </details>
 
