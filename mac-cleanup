@@ -266,6 +266,69 @@ collect_paths ~/Library/Logs/CoreSimulator/*
 msg 'Clearing System Log Files...'
 remove_paths
 
+# Enhanced System Cleanup Areas
+collect_paths /Library/Logs/CrashReporter/*
+collect_paths ~/Library/Logs/CrashReporter/*
+collect_paths /Library/Logs/DiagnosticReports/*
+collect_paths ~/Library/Logs/DiagnosticReports/*
+collect_paths /System/Library/Logs/*
+collect_paths /var/log/install.log*
+collect_paths /var/log/system.log*
+msg 'Clearing System and Application Crash Reports...'
+remove_paths
+
+collect_paths ~/Library/Containers/com.apple.mail/Data/Library/Mail Downloads/*
+collect_paths ~/Downloads/*/Attachments/*
+collect_paths ~/Library/Mail/V*/MailData/Attachments/*
+msg 'Clearing Mail Attachments and Downloads...'
+remove_paths
+
+collect_paths ~/Library/Caches/com.apple.QuickLook.thumbnailcache/*
+collect_paths /private/var/folders/*/*/C/com.apple.QuickLook.thumbnailcache/*
+msg 'Clearing QuickLook Thumbnails...'
+remove_paths
+
+collect_paths ~/.Spotlight-V100/*
+collect_paths /private/var/db/Spotlight-V100/*
+collect_paths ~/Library/Metadata/CoreSpotlight/*
+msg 'Clearing Spotlight Indexing Cache...'
+remove_paths
+
+collect_paths ~/Library/Caches/com.apple.ATS/*
+collect_paths /Library/Caches/com.apple.ATS/*
+collect_paths /System/Library/Caches/com.apple.coreservices.CacheServices/*
+msg 'Clearing Font Caches...'
+remove_paths
+
+collect_paths ~/Library/Caches/com.apple.IconServices.store
+collect_paths /Library/Caches/com.apple.iconservices.store
+msg 'Clearing Icon Caches...'
+remove_paths
+
+collect_paths ~/Library/Caches/com.apple.helpd/*
+collect_paths ~/Library/Caches/com.apple.preferencepanes.usercache/*
+collect_paths ~/Library/Caches/CloudKit/*
+collect_paths ~/Library/Caches/com.apple.bird/*
+collect_paths ~/Library/Caches/GeoServices/*
+collect_paths ~/Library/Caches/com.apple.nsurlsessiond/*
+msg 'Clearing Enhanced User Cache Directories...'
+remove_paths
+
+collect_paths /private/var/log/wifi.log*
+collect_paths /Library/Logs/WindowServer/*
+collect_paths ~/Library/Logs/com.apple.dt.XCPlatform/*
+collect_paths /var/log/asl.log*
+collect_paths /var/log/commerce.log*
+msg 'Clearing Additional System Logs...'
+remove_paths
+
+collect_paths ~/Library/Caches/Temporary\ Internet\ Files/*
+collect_paths ~/Library/Caches/TemporaryItems/*
+collect_paths /private/tmp/TM*
+collect_paths /private/var/tmp/TM*
+msg 'Clearing Temporary Internet Files...'
+remove_paths
+
 if [ -d ~/Library/Logs/JetBrains/ ]; then
   collect_paths ~/Library/Logs/JetBrains/*/
   msg 'Clearing all application log files from JetBrains...'
@@ -287,6 +350,52 @@ fi
 # Vietnamese Apps Cleanup (only when flag is enabled)
 if [ "$vietnamese_apps" = true ]; then
   clean_vietnamese_apps
+fi
+
+# Enhanced Browser Cache Cleanup
+if [ -d ~/Library/Safari/ ]; then
+  collect_paths ~/Library/Safari/LocalStorage/*
+  collect_paths ~/Library/Safari/Databases/*
+  collect_paths ~/Library/Safari/WebKitCache/*
+  collect_paths ~/Library/Caches/com.apple.Safari/*
+  collect_paths ~/Library/Caches/Safari/*
+  msg 'Clearing Safari Cache Files...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Firefox/ ]; then
+  collect_paths ~/Library/Application\ Support/Firefox/Profiles/*/cache2/*
+  collect_paths ~/Library/Application\ Support/Firefox/Profiles/*/startupCache/*
+  collect_paths ~/Library/Application\ Support/Firefox/Profiles/*/OfflineCache/*
+  collect_paths ~/Library/Caches/Firefox/*
+  msg 'Clearing Firefox Cache Files...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Microsoft\ Edge/ ]; then
+  collect_paths ~/Library/Application\ Support/Microsoft\ Edge/Default/Application\ Cache/*
+  collect_paths ~/Library/Application\ Support/Microsoft\ Edge/Default/Cache/*
+  collect_paths ~/Library/Application\ Support/Microsoft\ Edge/Default/Code\ Cache/*
+  collect_paths ~/Library/Caches/com.microsoft.edgemac/*
+  msg 'Clearing Microsoft Edge Cache Files...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/com.operasoftware.Opera/ ]; then
+  collect_paths ~/Library/Application\ Support/com.operasoftware.Opera/Cache/*
+  collect_paths ~/Library/Application\ Support/com.operasoftware.Opera/Application\ Cache/*
+  collect_paths ~/Library/Caches/com.operasoftware.Opera/*
+  msg 'Clearing Opera Cache Files...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/BraveSoftware/Brave-Browser/ ]; then
+  collect_paths ~/Library/Application\ Support/BraveSoftware/Brave-Browser/Default/Application\ Cache/*
+  collect_paths ~/Library/Application\ Support/BraveSoftware/Brave-Browser/Default/Cache/*
+  collect_paths ~/Library/Application\ Support/BraveSoftware/Brave-Browser/Default/Code\ Cache/*
+  collect_paths ~/Library/Caches/BraveSoftware/*
+  msg 'Clearing Brave Browser Cache Files...'
+  remove_paths
 fi
 
 collect_paths ~/Music/iTunes/iTunes\ Media/Mobile\ Applications/*
@@ -337,8 +446,11 @@ if type "composer" &>/dev/null; then
   if [ -z "$dry_run" ]; then
     msg 'Cleaning up composer...'
     composer clearcache --no-interaction &>/dev/null
+    composer clear-cache --no-interaction &>/dev/null || true
   else
-    collect_paths ~/Library/Caches/composer
+    collect_paths ~/Library/Caches/composer/*
+    collect_paths ~/.composer/cache/*
+    collect_paths ~/.cache/composer/*
   fi
 fi
 
@@ -520,6 +632,48 @@ if type "go" &>/dev/null; then
   fi
 fi
 
+# Enhanced Developer Tools Cleanup
+if type "cargo" &>/dev/null; then
+  if [ -z "$dry_run" ]; then
+    msg 'Cleaning up Rust cargo cache...'
+    cargo cache --autoclean &>/dev/null || true
+  else
+    collect_paths ~/.cargo/registry/cache/*
+    collect_paths ~/.cargo/registry/src/*
+    collect_paths ~/.cargo/git/db/*
+  fi
+fi
+
+if type "pip" &>/dev/null; then
+  if [ -z "$dry_run" ]; then
+    msg 'Cleaning up Python pip cache...'
+    pip cache purge &>/dev/null || true
+  else
+    collect_paths ~/Library/Caches/pip/*
+    collect_paths ~/.cache/pip/*
+  fi
+fi
+
+if type "mvn" &>/dev/null; then
+  if [ -z "$dry_run" ]; then
+    msg 'Cleaning up Maven cache...'
+    mvn dependency:purge-local-repository -DactTransitively=false -DreResolve=false &>/dev/null || true
+  else
+    collect_paths ~/.m2/repository/*
+  fi
+fi
+
+if type "gradle" &>/dev/null; then
+  if [ -z "$dry_run" ]; then
+    msg 'Stopping Gradle daemons and cleaning cache...'
+    gradle --stop &>/dev/null || true
+    gradle cleanBuildCache &>/dev/null || true
+  else
+    collect_paths ~/.gradle/caches/*
+    collect_paths ~/.gradle/daemon/*
+  fi
+fi
+
 # Deletes all Microsoft Teams Caches and resets it to default - can fix also some performance issues
 # -Astro
 if [ -d ~/Library/Application\ Support/Microsoft/Teams ]; then
@@ -539,6 +693,98 @@ if [ -d ~/Library/Application\ Support/Microsoft/Teams ]; then
   remove_paths
 fi
 
+# Enhanced Application Cache Cleanup
+if [ -d ~/Library/Application\ Support/Code/ ]; then
+  collect_paths ~/Library/Application\ Support/Code/logs/*
+  collect_paths ~/Library/Application\ Support/Code/CachedData/*
+  collect_paths ~/Library/Application\ Support/Code/CachedExtensions/*
+  msg 'Clearing VSCode Cache and Logs...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Cursor/ ]; then
+  collect_paths ~/Library/Application\ Support/Cursor/logs/*
+  collect_paths ~/Library/Application\ Support/Cursor/CachedData/*
+  collect_paths ~/Library/Application\ Support/Cursor/CachedExtensions/*
+  msg 'Clearing Cursor Cache and Logs...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Slack/ ]; then
+  collect_paths ~/Library/Application\ Support/Slack/Cache/*
+  collect_paths ~/Library/Application\ Support/Slack/Code\ Cache/*
+  collect_paths ~/Library/Application\ Support/Slack/logs/*
+  collect_paths ~/Library/Application\ Support/Slack/Service\ Worker/CacheStorage/*
+  msg 'Clearing Slack Cache and Logs...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/discord/ ]; then
+  collect_paths ~/Library/Application\ Support/discord/Cache/*
+  collect_paths ~/Library/Application\ Support/discord/Code\ Cache/*
+  collect_paths ~/Library/Application\ Support/discord/GPUCache/*
+  collect_paths ~/Library/Application\ Support/discord/logs/*
+  msg 'Clearing Discord Cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Spotify/ ]; then
+  collect_paths ~/Library/Application\ Support/Spotify/PersistentCache/*
+  collect_paths ~/Library/Caches/com.spotify.client/*
+  msg 'Clearing Spotify Cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/WhatsApp/ ]; then
+  collect_paths ~/Library/Application\ Support/WhatsApp/Cache/*
+  collect_paths ~/Library/Application\ Support/WhatsApp/Code\ Cache/*
+  collect_paths ~/Library/Caches/net.whatsapp.WhatsApp/*
+  msg 'Clearing WhatsApp Cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Telegram/ ]; then
+  collect_paths ~/Library/Application\ Support/Telegram/tdata/user_data/*
+  collect_paths ~/Library/Application\ Support/Telegram/tdata/temp/*
+  collect_paths ~/Library/Caches/ru.keepcoder.Telegram/*
+  msg 'Clearing Telegram Cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Figma/ ]; then
+  collect_paths ~/Library/Application\ Support/Figma/Cache/*
+  collect_paths ~/Library/Application\ Support/Figma/Code\ Cache/*
+  collect_paths ~/Library/Application\ Support/Figma/logs/*
+  msg 'Clearing Figma Cache...'
+  remove_paths
+fi
+
+if [ -d ~/Library/Application\ Support/Postman/ ]; then
+  collect_paths ~/Library/Application\ Support/Postman/Cache/*
+  collect_paths ~/Library/Application\ Support/Postman/Code\ Cache/*
+  collect_paths ~/Library/Application\ Support/Postman/logs/*
+  msg 'Clearing Postman Cache...'
+  remove_paths
+fi
+
+# Generic Electron Apps Cache Cleanup
+for electron_app in ~/Library/Application\ Support/*/; do
+  if [ -d "$electron_app/Cache" ] && [ -d "$electron_app/Code Cache" ]; then
+    app_name=$(basename "$electron_app")
+    # Skip apps we've already handled specifically
+    case "$app_name" in
+      Code|Cursor|Slack|discord|Spotify|WhatsApp|Telegram|Figma|Postman|Microsoft)
+        continue
+        ;;
+    esac
+    collect_paths "$electron_app/Cache/*"
+    collect_paths "$electron_app/Code Cache/*"
+    collect_paths "$electron_app/GPUCache/*"
+    msg "Clearing $app_name (Electron App) Cache..."
+    remove_paths
+  fi
+done
+
 # Deletes Poetry cache
 if [ -d ~/Library/Caches/pypoetry ]; then
   collect_paths ~/Library/Caches/pypoetry
@@ -551,11 +797,44 @@ collect_paths ~/*.hprof
 msg 'Deleting Java heap dumps...'
 remove_paths
 
+# System Optimization Features
+if [ -z "$dry_run" ]; then
+  msg 'Rebuilding Launch Services database...'
+  /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user &>/dev/null || true
+fi
+
+if [ -z "$dry_run" ]; then
+  msg 'Clearing download quarantine attributes...'
+  find ~/Downloads -name "*.app" -exec xattr -d -r com.apple.quarantine {} \; &>/dev/null || true
+  find ~/Downloads -name "*.dmg" -exec xattr -d com.apple.quarantine {} \; &>/dev/null || true
+  find ~/Downloads -name "*.zip" -exec xattr -d com.apple.quarantine {} \; &>/dev/null || true
+fi
+
+# Clear sleep image if safe (only if more than 8GB RAM)
+if [ -z "$dry_run" ]; then
+  total_ram=$(sysctl -n hw.memsize)
+  ram_gb=$((total_ram / 1024 / 1024 / 1024))
+  if [ $ram_gb -gt 8 ]; then
+    msg 'Clearing sleep image (hibernation file)...'
+    sudo pmset -a hibernatemode 0 &>/dev/null || true
+    sudo rm -f /private/var/vm/sleepimage &>/dev/null || true
+    sudo pmset -a hibernatemode 3 &>/dev/null || true
+  fi
+fi
+
 if [ -z "$dry_run" ]; then
   msg 'Cleaning up DNS cache...'
   sudo dscacheutil -flushcache &>/dev/null
   sudo killall -HUP mDNSResponder &>/dev/null
 fi
+
+# Optional network cache reset (uncomment to enable)
+# if [ -z "$dry_run" ]; then
+#   msg 'Resetting network settings cache...'
+#   sudo ifconfig en0 down &>/dev/null || true
+#   sudo ifconfig en0 up &>/dev/null || true
+#   sudo route -n flush &>/dev/null || true
+# fi
 
 if [ -z "$dry_run" ]; then
   msg 'Purging inactive memory...'
