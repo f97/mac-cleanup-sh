@@ -12,7 +12,18 @@
 </br>
 
 * Empty the Trash on All Mounted Volumes and the Main HDD
+* Clear System Cache Files
 * Clear System Log Files
+* Clear System and Application Crash Reports
+* Clear Mail Attachments and Downloads
+* Clear QuickLook Thumbnails
+* Clear Spotlight Indexing Cache
+* Clear Font Caches
+* Clear Icon Caches
+* Clear Enhanced User Cache Directories
+* Clear Additional System Logs
+* Clear Temporary Internet Files
+* Clear Browser Caches (Safari, Firefox, Chrome, Edge, Opera, Brave)
 * Clear Adobe Cache Files
 * Cleanup iOS Applications
 * Remove iOS Device Backups
@@ -26,10 +37,12 @@
 * Cleanup Pyenv-VirtualEnv Cache
 * Cleanup npm Cache
 * Cleanup Yarn Cache
+* Cleanup pnpm Cache
 * Cleanup Docker Images and Stopped Containers
 * Cleanup CocoaPods Cache Files
-* Cleanup composer cache
+* Enhanced composer cache cleanup
 * Cleanup Dropbox cache
+* Cleanup Google Drive File Stream Cache
 * Remove PhpStorm logs
 * Remove Minecraft logs and cache
 * Remove Steam logs and cache
@@ -42,6 +55,36 @@
 * Deletes Kite logs
 * Clears Go module cache
 * Clears Poetry cache
+* **🇻🇳 Vietnamese Apps Cleanup** (with `--vietnamese-apps` flag):
+  * Cốc Cốc Browser cache and data
+  * Zalo Desktop cache and temp files
+  * VTV Go media cache
+  * Banking apps cache (VCB-Digibank, BIDV SmartBanking, Techcombank)
+  * Music & Entertainment cache (Zing MP3, NhacCuaTui)
+  * E-commerce apps cache (Shopee, Lazada, Tiki)
+* Remove Cacher logs
+* Delete Android caches
+* Clear Gradle caches and stop daemons
+* Delete Kite logs
+* Clear Go module cache
+* Clear Rust cargo cache
+* Clear Python pip cache
+* Clear Maven repository cache
+* Clear Poetry cache
+* Clear VSCode/Cursor cache and logs
+* Clear Slack cache and logs
+* Clear Discord cache
+* Clear Spotify cache
+* Clear WhatsApp cache
+* Clear Telegram cache
+* Clear Figma cache
+* Clear Postman cache
+* Clear Firefox profiles and cache
+* Clear generic Electron app caches
+* Rebuild Launch Services database
+* Clear download quarantine attributes
+* Clear sleep image (hibernation file) if safe
+* Optional network cache reset
 
 ### 🆕 **Advanced Cleanup Features**
 
@@ -130,8 +173,6 @@
 * Clear analytics and usage statistics
 
 </details>
-
-
 
 ## Install Automatically
 
@@ -224,7 +265,31 @@ FLAGS:
 -d, --dry-run    Print approx space to be cleaned
 -v, --verbose    Print script debug info
 -u, --update     Run brew update
+--vietnamese-apps Clean Vietnamese applications cache
 ```
+
+### Vietnamese Apps Cleanup
+
+Use the `--vietnamese-apps` flag to clean cache and temporary files from popular Vietnamese applications:
+
+```bash
+# Preview what will be cleaned
+mac-cleanup --vietnamese-apps --dry-run
+
+# Clean Vietnamese apps cache
+mac-cleanup --vietnamese-apps
+
+# Combine with other options
+mac-cleanup --vietnamese-apps --update --verbose
+```
+
+**Supported Vietnamese Apps:**
+- 🌐 **Cốc Cốc Browser** - Cache, GPU cache, session data, cookies, history
+- 💬 **Zalo Desktop** - Cache, temp files, logs (⚠️ may affect chat history loading speed)
+- 📺 **VTV Go** - Media cache
+- 🏦 **Banking Apps** - Vietcombank, BIDV SmartBanking, Techcombank cache
+- 🎵 **Music Apps** - Zing MP3, NhacCuaTui cache
+- 🛒 **E-commerce Apps** - Shopee, Lazada, Tiki cache
 
 ## Contributors
 
