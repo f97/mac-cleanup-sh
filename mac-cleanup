@@ -9,10 +9,11 @@ cleanup() {
 
 # Default arguments
 update=false
+vietnamese_apps=false
 
 usage() {
 	cat <<EOF
-Usage: $(basename "${BASH_SOURCE[0]}") [-h] [-v] [-u]
+Usage: $(basename "${BASH_SOURCE[0]}") [-h] [-v] [-u] [--vietnamese-apps]
 
 A Mac Cleaning up Utility by fwartner
 https://github.com/mac-cleanup/mac-cleanup-sh
@@ -23,6 +24,7 @@ Available options:
 -d, --dry-run    Print approx space to be cleaned
 -v, --verbose    Print script debug info
 -u, --update     Run brew update
+--vietnamese-apps Clean Vietnamese applications cache
 EOF
 	exit
 }
@@ -52,6 +54,7 @@ die() {
 parse_params() {
 	# default values of variables set from params
 	update=false
+	vietnamese_apps=false
 
 	while :; do
 		case "${1-}" in
@@ -60,6 +63,7 @@ parse_params() {
 		-d | --dry-run) dry_run=true ;;
 		--no-color) NO_COLOR=1 ;;
 		-u | --update) update=true ;; # update flag
+		--vietnamese-apps) vietnamese_apps=true ;; # vietnamese apps cleanup flag
 		-n) true ;;                   # This is a legacy option, now default behaviour
 		-?*) die "Unknown option: $1" ;;
 		*) break ;;
@@ -126,6 +130,103 @@ collect_paths() {
   path_list+=("$@")
 }
 
+clean_vietnamese_apps() {
+  # 🇻🇳 Cốc Cốc Browser cleanup
+  if [ -d ~/Library/Application\ Support/Coccoc ]; then
+    collect_paths ~/Library/Application\ Support/Coccoc/Default/Cache/*
+    collect_paths ~/Library/Application\ Support/Coccoc/Default/GPUCache/*
+    collect_paths ~/Library/Application\ Support/Coccoc/Default/Code\ Cache/*
+    collect_paths ~/Library/Application\ Support/Coccoc/Default/Media\ Cache/*
+    collect_paths ~/Library/Application\ Support/Coccoc/Default/Application\ Cache/*
+    collect_paths ~/Library/Application\ Support/Coccoc/Default/Session\ Storage/*
+    collect_paths ~/Library/Application\ Support/Coccoc/Default/Local\ Storage/*
+    collect_paths ~/Library/Application\ Support/Coccoc/Default/IndexedDB/*
+    collect_paths ~/Library/Application\ Support/Coccoc/Default/Web\ Data*
+    collect_paths ~/Library/Application\ Support/Coccoc/Default/History*
+    collect_paths ~/Library/Application\ Support/Coccoc/Default/Cookies*
+    collect_paths ~/Library/Application\ Support/Coccoc/Default/Favicons*
+    collect_paths ~/Library/Application\ Support/Coccoc/coccoc_crashpad_database/*
+    msg 'Cleaning Cốc Cốc browser cache 🌐...'
+    remove_paths
+  fi
+
+  # 💬 Zalo Desktop cleanup
+  if [ -d ~/Library/Application\ Support/Zalo ]; then
+    msg '⚠️  Cleaning Zalo cache may affect chat history loading speed'
+    collect_paths ~/Library/Application\ Support/Zalo/Cache/*
+    collect_paths ~/Library/Application\ Support/Zalo/GPUCache/*
+    collect_paths ~/Library/Application\ Support/Zalo/Code\ Cache/*
+    collect_paths ~/Library/Application\ Support/Zalo/Session\ Storage/*
+    collect_paths ~/Library/Application\ Support/Zalo/Local\ Storage/*
+    collect_paths ~/Library/Application\ Support/Zalo/IndexedDB/*
+    collect_paths ~/Library/Application\ Support/Zalo/blob_storage/*
+    collect_paths ~/Library/Application\ Support/Zalo/logs/*
+    collect_paths ~/Library/Application\ Support/Zalo/Downloads/*
+    collect_paths ~/Library/Application\ Support/Zalo/tmp/*
+    msg 'Cleaning Zalo Desktop cache 💬...'
+    remove_paths
+  fi
+
+  # 📺 VTV Go cleanup
+  if [ -d ~/Library/Application\ Support/VTV\ Go ]; then
+    collect_paths ~/Library/Application\ Support/VTV\ Go/Cache/*
+    collect_paths ~/Library/Application\ Support/VTV\ Go/Media\ Cache/*
+    msg 'Cleaning VTV Go cache 📺...'
+    remove_paths
+  fi
+
+  # 🏦 Banking Apps cleanup
+  if [ -d ~/Library/Application\ Support/VCB-Digibank ]; then
+    collect_paths ~/Library/Application\ Support/VCB-Digibank/Cache/*
+    msg 'Cleaning Vietcombank cache 🏦...'
+    remove_paths
+  fi
+
+  if [ -d ~/Library/Application\ Support/BIDV\ SmartBanking ]; then
+    collect_paths ~/Library/Application\ Support/BIDV\ SmartBanking/Cache/*
+    msg 'Cleaning BIDV SmartBanking cache 🏦...'
+    remove_paths
+  fi
+
+  if [ -d ~/Library/Application\ Support/Techcombank ]; then
+    collect_paths ~/Library/Application\ Support/Techcombank/Cache/*
+    msg 'Cleaning Techcombank cache 🏦...'
+    remove_paths
+  fi
+
+  # 🎵 Music & Entertainment cleanup
+  if [ -d ~/Library/Application\ Support/Zing\ MP3 ]; then
+    collect_paths ~/Library/Application\ Support/Zing\ MP3/Cache/*
+    msg 'Cleaning Zing MP3 cache 🎵...'
+    remove_paths
+  fi
+
+  if [ -d ~/Library/Application\ Support/NhacCuaTui ]; then
+    collect_paths ~/Library/Application\ Support/NhacCuaTui/Cache/*
+    msg 'Cleaning NhacCuaTui cache 🎵...'
+    remove_paths
+  fi
+
+  # 🛒 E-commerce Apps cleanup
+  if [ -d ~/Library/Application\ Support/Shopee ]; then
+    collect_paths ~/Library/Application\ Support/Shopee/Cache/*
+    msg 'Cleaning Shopee cache 🛒...'
+    remove_paths
+  fi
+
+  if [ -d ~/Library/Application\ Support/Lazada ]; then
+    collect_paths ~/Library/Application\ Support/Lazada/Cache/*
+    msg 'Cleaning Lazada cache 🛒...'
+    remove_paths
+  fi
+
+  if [ -d ~/Library/Application\ Support/Tiki ]; then
+    collect_paths ~/Library/Application\ Support/Tiki/Cache/*
+    msg 'Cleaning Tiki cache 🛒...'
+    remove_paths
+  fi
+}
+
 # Ask for the administrator password upfront
 sudo -v
 
@@ -181,6 +282,11 @@ if [ -d ~/Library/Application\ Support/Google/Chrome/ ]; then
   collect_paths ~/Library/Application\ Support/Google/Chrome/Default/Application\ Cache/*
   msg 'Clearing Google Chrome Cache Files...'
   remove_paths
+fi
+
+# Vietnamese Apps Cleanup (only when flag is enabled)
+if [ "$vietnamese_apps" = true ]; then
+  clean_vietnamese_apps
 fi
 
 collect_paths ~/Music/iTunes/iTunes\ Media/Mobile\ Applications/*
